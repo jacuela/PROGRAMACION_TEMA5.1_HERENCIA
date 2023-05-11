@@ -39,12 +39,12 @@ public class Director extends Empleado {
         
     }
     
-    @Override
-    public String toString(){
-        String cadena;
-        cadena=String.format("%s (DNI:%s) [DIRECTOR]",this.nombre,this.DNI);
-        return cadena;
-    }
+//    @Override
+//    public String toString(){
+//        String cadena;
+//        cadena=String.format("%s (DNI:%s) [DIRECTOR]",this.nombre,this.DNI);
+//        return cadena;
+//    }
     
     
     

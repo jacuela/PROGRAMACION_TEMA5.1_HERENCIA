@@ -41,12 +41,12 @@ public class Contable extends Empleado {
         
     }
     
-    @Override
-    public String toString(){
-        String cadena;
-        cadena=String.format("%s (DNI:%s) [CONTABLE]",this.nombre,this.DNI);
-        return cadena;
-    }
+//    @Override
+//    public String toString(){
+//        String cadena;
+//        cadena=String.format("%s (DNI:%s) [CONTABLE]",this.nombre,this.DNI);
+//        return cadena;
+//    }
     
     
     

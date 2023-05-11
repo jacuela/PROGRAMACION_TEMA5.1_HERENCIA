@@ -34,8 +34,23 @@ public class Empleado {
     
     @Override
     public String toString(){
-        String cadena;
-        cadena=String.format("%s (DNI:%s) [EMPLEADO]",this.nombre,this.DNI);
+        String cadena=null;
+        
+        //Para Empleado
+        if (this instanceof Empleado){
+             cadena=String.format("%s (DNI:%s) [EMPLEADO]",this.nombre,this.DNI);
+        }
+        
+        //Para Contable
+        if (this instanceof Contable){
+             cadena=String.format("%s (DNI:%s) [CONTABLE]",this.nombre,this.DNI);
+        }
+        //Para director     
+        if (this instanceof Director){
+             cadena=String.format("%s (DNI:%s) [DIRECTOR]",this.nombre,this.DNI);
+       
+        }
+        
         return cadena;
     }
     
