@@ -49,7 +49,7 @@ public class Ejercicio06_menu {
            System.out.println("1. Añadir vehiculo");
            System.out.println("2. Historico alquileres");
            System.out.println("3. Alquilar");
-           System.out.println("4. Devolvr");
+           System.out.println("4. Devolver");
            System.out.println("5. Salir");
            
            System.out.print("Elige una opcion >");

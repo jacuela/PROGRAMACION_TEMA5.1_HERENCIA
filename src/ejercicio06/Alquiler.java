@@ -118,9 +118,10 @@ public class Alquiler {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
         long dias = ChronoUnit.DAYS.between(this.fecha_inicio, this.fecha_fin);
-        //System.out.println("\n<Dias> entre las dos fechas: "+dias); 
+        System.out.println("\n<Dias> entre las dos fechas: "+dias); 
         
-        return dias;
+        if (dias==0) return 1;
+        else return dias;
     }
     
     
@@ -134,7 +135,7 @@ public class Alquiler {
             
         }
         else{
-          a=String.format("%10s - %10s - %f €", this.vehiculo.getMatricula(),this.fecha_inicio,this.importe);
+          a=String.format("%10s - %10s - %.2f €", this.vehiculo.getMatricula(),this.fecha_inicio,this.importe);
         }
        
         return a;
