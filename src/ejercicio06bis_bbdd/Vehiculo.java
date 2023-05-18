@@ -38,6 +38,24 @@ public abstract class Vehiculo {
     public boolean isAlquilado() {
         return alquilado;
     }
+
+    public String getMarca_modelo() {
+        return marca_modelo;
+    }
+
+    public void setMarca_modelo(String marca_modelo) {
+        this.marca_modelo = marca_modelo;
+    }
+
+    public int getKm() {
+        return km;
+    }
+
+    public void setKm(int km) {
+        this.km = km;
+    }
+    
+    
     
     
     

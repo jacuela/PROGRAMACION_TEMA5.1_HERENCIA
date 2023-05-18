@@ -45,11 +45,12 @@ public class Turismo extends Vehiculo {
     public void alquilar(LocalDate fecha_alquiler, int km){
         DateTimeFormatter dtf=DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        this.alquilado=true;
+        this.alquilado=true;  //no es neceario hacerlo pq lo modificamso en la bbdd
+        
         Alquiler alquiler=new Alquiler(this);
         alquiler.setFecha_inicio(fecha_alquiler);
         alquiler.setKm_inicio(km);
-        //Añadir este alquiler a la bd
+        
         Empresa.añadirAlquiler(alquiler);
         
         System.out.println("====datos del alquiler====");
@@ -63,19 +64,12 @@ public class Turismo extends Vehiculo {
     
     @Override
     public void devolver(LocalDate fecha_devolucionLD, int km) {
-        Alquiler a=Empresa.obtenerUltimoAlquiler(this.getMatricula());
+
+        this.km = km; //lo hago antes para pasarle el vehiculo con los km correctos
         
-        a.setFecha_fin(fecha_devolucionLD);
-        a.setKm_fin(km);
-        a.calcularImporte();
-        this.alquilado=false;
-        
-        //Muestro los datos del aquiler
-        a.imprimir();
-        
-        //FINALMENTE, hay que actualizar los km del vehiculo
-        this.km=km;
-        
+        Empresa.finalizarAlquiler(this, fecha_devolucionLD, km);
+       
+
     }
     
     

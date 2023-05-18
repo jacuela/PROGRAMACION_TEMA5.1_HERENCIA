@@ -13,8 +13,11 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -26,6 +29,8 @@ public class BD_EmpresaSQL {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
     private static Connection conexion;
+
+    
     
     public BD_EmpresaSQL(){
          //this.conectar();
@@ -77,7 +82,6 @@ public class BD_EmpresaSQL {
     
     
     //************************************************************************
-    //************************************************************************
     
     public static ArrayList<Vehiculo> getListaVehiculosSQL(){
         
@@ -85,7 +89,7 @@ public class BD_EmpresaSQL {
             ArrayList<Vehiculo> listaVehiculos=new ArrayList();
          
             Statement statement = conexion.createStatement();
-          String sql=String.format("SELECT * from vehiculo");
+            String sql=String.format("SELECT * from vehiculo");
             ResultSet rs = statement.executeQuery(sql);
             
             while (rs.next()) {
@@ -125,110 +129,338 @@ public class BD_EmpresaSQL {
     }
     
     
-//    public static Equipo getEquipoSQL(int id_equipo){
-//        try {
-//            Equipo e=null;
-//            
-//            Statement statement = conexion.createStatement();
-//          
-//            String sql=String.format("SELECT id,nombre,puntos FROM equipo WHERE id=%d",id_equipo);
-//            ResultSet rs = statement.executeQuery(sql);
-//            
-//            while (rs.next()) {
-//                    int id =rs.getInt("id");
-//                    String nombre = rs.getString("nombre");
-//                    int puntos = rs.getInt("puntos");
-//                    
-//                    e=new Equipo(id,nombre,puntos);
-//            }
-//           
-//            rs.close();
-//            statement.close();
-//            return e;
-//            
-//        } catch (SQLException ex) {
-//            System.out.println("ERROR: sql excepcion");
-//            System.out.println(ex);
-//            return null;
-//        }  
-//        
-//       
-//    }
-//    
+    //************************************************************************
+    public static void añadirVehiculo(Vehiculo v) {
+        String sql=null;
+       
+        
+        
+        //Primero, veo que tipo de vehiculo es
+        if (v instanceof Turismo){
+            Turismo t = (Turismo)v;
+            sql=String.format(Locale.ROOT,"INSERT INTO vehiculo VALUES ('%s','%s',%d,false,null,%.2f,'turismo')",
+                                                            t.getMatricula(),
+                                                            t.getMarcaModelo(),
+                                                            t.getKm(),
+                                                            t.getPrecioDia());
+        }
+        if (v instanceof Furgoneta){
+            Furgoneta f = (Furgoneta)v;
+
+            sql=String.format(Locale.ROOT,"INSERT INTO vehiculo VALUES ('%s','%s',%d,false,%.2f,null,'furgoneta')",
+                                                            f.getMatricula(),
+                                                            f.getMarcaModelo(),
+                                                            f.getKm(),
+                                                            f.getPrecioKM());
+        }
+
+            
+        try {
+            Statement statement = conexion.createStatement();
+            System.out.println("quiery:"+sql);
+            statement.executeUpdate(sql);
+            statement.close();
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR: sql excepcion");
+            System.out.println(ex);
+        }  
+
+
+    }
     
     
     
-//    public static void actualizarPuntuacionSQL(int id_equipo,int total_puntos){
-//        
-//        Statement statement;
-//        
-//        try {
-//            statement = conexion.createStatement();
-//            String sql=String.format("UPDATE equipo SET puntos=%d WHERE id=%d",total_puntos,id_equipo);
-//            statement.executeUpdate(sql);
-//            statement.close();
-//          
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//        
-//        }
-//        
-//    } 
-//    
-//    public static void resetearSQL(){
-//        Statement statement;
-//        
-//        try {
-//            //Borramos puntos
-//            statement = conexion.createStatement();
-//            String query=String.format("UPDATE equipo SET puntos=0");
-//            statement.executeUpdate(query);
-//            statement.close();
-//        
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//        
-//        }
-//        
-//    }
-//    
-//    
-//    
-//    public static ArrayList<Jugador> getPlantillaSQL(int id_equipo){
-//        
-//        
-//        try {
-//            
-//            Statement statement = conexion.createStatement();
-//            ArrayList<Jugador> listaJugadores=new ArrayList();
-//         
-//            //Leemos los jugadores del equipo indicado
-//            String sql=String.format("SELECT id,nombre,fecha_nac FROM jugador WHERE id_equipo=%d", id_equipo);
-//            ResultSet rs = statement.executeQuery(sql);
-//            
-//            while (rs.next()) {
-//                    int id =rs.getInt("id");
-//                    String nombre = rs.getString("nombre");
-//                    String fecha = rs.getString("fecha_nac");
-//                    LocalDate fecha_nac=LocalDate.parse(fecha);
-//                    
-//                    //System.out.printf("%d %s %s\n",id, nombre, fecha_nac);
-//                   
-//                    //Creo un jugador y lo meto en el array
-//                    listaJugadores.add(new Jugador(id,nombre,fecha_nac));
-//            }
-//           
-//            rs.close();
-//            statement.close();
-//            return listaJugadores;
-//       
-//        } catch (SQLException ex) {
-//            System.out.println(ex);
-//            return null;
-//        
-//        }
-//        
-//    }
+    //************************************************************************
+    
+    static Vehiculo obtenerVehiculo(String matricula_) {
+        
+        try {
+            Vehiculo v=null;
+            
+            Statement statement = conexion.createStatement();
+            String sql=String.format("SELECT * FROM vehiculo WHERE matricula='%s'",matricula_);
+            //System.out.println("SQL-->"+sql);
+            ResultSet rs = statement.executeQuery(sql);
+            
+            
+            while (rs.next()) {
+                    String matricula = rs.getString("matricula");
+                    String marca_modelo = rs.getString("marca_modelo");
+                    int km = rs.getInt("km");
+                    boolean alquilado = rs.getBoolean("alquilado");
+                    double precioKM = rs.getDouble("precioKilometro");
+                    double precioDIA = rs.getDouble("precioDia");
+                    String tipo = rs.getString("tipoVehiculo");
+                    
+                    if (tipo.equals("turismo")){
+                        //Es un turismo
+                        v=new Turismo(matricula,marca_modelo,km,alquilado,precioDIA);
+                    }
+                    else{
+                       //Es una furgoneta 
+                       v=new Furgoneta(matricula,marca_modelo,km,alquilado,precioKM);
+
+                    }
+
+            }
+           
+            rs.close();
+            statement.close();
+            return v;
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR: sql excepcion");
+            System.out.println(ex);
+                
+            return null;
+        }  
+        
+        
+    }
+    
+    //************************************************************************
+    
+    
+    public static void setCampoAlquilado(String matricula, boolean alquilado) {
+    
+        Statement statement;
+        
+        try {
+            statement = conexion.createStatement();
+            String sql=String.format("UPDATE vehiculo SET alquilado=%s WHERE matricula='%s'",alquilado,matricula);
+            statement.executeUpdate(sql);
+            statement.close();
+          
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        
+        }
+    
+    }
+
+    
+    //************************************************************************
+    
+    
+    public static void actualizarKmVehiculo(String matricula, int km) {
+        Statement statement;
+        
+        try {
+            statement = conexion.createStatement();
+            String sql=String.format("UPDATE vehiculo SET km=%d WHERE matricula='%s'",km,matricula);
+            statement.executeUpdate(sql);
+            statement.close();
+          
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        
+        }
+        
+    }
+
+    
+   
+    public static void añadirAlquiler(Alquiler a) {
+        
+        String sql=String.format(Locale.ROOT,"INSERT INTO alquiler VALUES (null,'%s',%d,%d,'%s',null,%.2f)",
+                                a.getVehiculo().getMatricula(),
+                                a.getKm_inicio(),
+                                a.getKm_fin(),
+                                a.getFecha_inicio(),
+                                a.getImporte()
+                          );
+            
+        try {
+            Statement statement = conexion.createStatement();
+            //System.out.println("quiery:"+sql);
+            statement.executeUpdate(sql);
+            statement.close();
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR: sql excepcion");
+            System.out.println(ex);
+        }  
+
+        
+    }
+    
+    //************************************************************************
+    
+    public static int obtenerIDAlquilerSinTerminar(Vehiculo vehiculo) {
+        
+        try {
+            
+            int id=-1;
+            Statement statement = conexion.createStatement();
+            String sql=String.format("SELECT id FROM alquiler WHERE vehiculo='%s' and fecha_fin is null",
+                                                    vehiculo.getMatricula());
+            //System.out.println("SQL-->"+sql);
+            ResultSet rs = statement.executeQuery(sql);
+            
+            while (rs.next()) {
+                    id = rs.getInt("id");
+            }
+            
+            rs.close();
+            statement.close();
+            return id;
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR en: obtenerIDAlquilerSinTerminar()");
+            System.out.println(ex);
+                
+            return -1;
+        }  
+        
+    
+    }
+    
+    //************************************************************************
+    
+    public static void finalizarAlquiler(int id_alquiler, LocalDate fecha_devolucionLD, int km, double importe) {
+      
+        Statement statement;
+        String sql;
+        
+        try {
+            statement = conexion.createStatement();
+            
+            sql=String.format("UPDATE alquiler SET km_fin=%d WHERE id=%d",km,id_alquiler);
+            statement.executeUpdate(sql);
+            
+            sql=String.format("UPDATE alquiler SET fecha_fin='%s' WHERE id=%d",fecha_devolucionLD,id_alquiler);
+            statement.executeUpdate(sql);
+            
+            sql=String.format(Locale.ROOT,"UPDATE alquiler SET importe='%.2f' WHERE id=%d",importe,id_alquiler);
+            statement.executeUpdate(sql);
+            
+            statement.close();
+          
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        
+        }
+        
+        
+    }
+
+    
+     //************************************************************************
+    
+    
+    
+    public static Alquiler obtenerAlquiler(int id_, Vehiculo vehiculo) {
+        
+        try {
+            
+            Alquiler a=null;
+            Statement statement = conexion.createStatement();
+            String sql=String.format("SELECT * FROM alquiler WHERE id=%d",id_);
+            //System.out.println("SQL-->"+sql);
+            ResultSet rs = statement.executeQuery(sql);
+            
+            
+            while (rs.next()) {
+                    int id = rs.getInt("id");
+                    //String matricula = rs.getString("vehiculo");
+                    int km_inicio = rs.getInt("km_inicio");
+                    int km_fin = rs.getInt("km_fin");
+                    String fecha_inicio = rs.getString("fecha_inicio");
+                    LocalDate fecha_inicioLD = LocalDate.parse(fecha_inicio);
+                    
+                    String fecha_fin = rs.getString("fecha_fin");
+                    LocalDate fecha_finLD;
+                    if (fecha_fin!=null){
+                        fecha_finLD = LocalDate.parse(fecha_fin);
+                    }
+                    else{
+                        fecha_finLD=null;
+                    }
+                    
+                    double importe = rs.getDouble("importe"); //será cero
+                    
+                    a=new Alquiler(id,vehiculo,km_inicio,km_fin,fecha_inicioLD,fecha_finLD,importe);
+
+            }
+           
+            rs.close();
+            statement.close();
+            return a;
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR en: obtenerAlquiler()");
+            System.out.println(ex);
+                
+            return null;
+        }  
+        
+    
+    }
+    
+    
+    //************************************************************************
+    
+    public static JSONArray obtenerListaAlquileresJSON() {
+        
+        JSONArray jsonListaAlquileres = new JSONArray();
+        try{
+            Statement statement = conexion.createStatement();
+            String sql=String.format("SELECT * FROM alquiler");
+            //System.out.println("SQL-->"+sql);
+            ResultSet rs = statement.executeQuery(sql);
+            
+            while (rs.next()) {
+                    
+                    JSONObject jsonAlquiler = new JSONObject();
+
+                    int id = rs.getInt("id");
+                    String matricula = rs.getString("vehiculo");
+                    int km_inicio = rs.getInt("km_inicio");
+                    int km_fin = rs.getInt("km_fin");
+                    String fecha_inicio = rs.getString("fecha_inicio");
+                    LocalDate fecha_inicioLD = LocalDate.parse(fecha_inicio);
+                    
+                    String fecha_fin = rs.getString("fecha_fin");
+                    LocalDate fecha_finLD;
+                    if (fecha_fin!=null){
+                        fecha_finLD = LocalDate.parse(fecha_fin);
+                    }
+                    else{
+                        fecha_finLD=null;
+                    }
+                    
+                    double importe = rs.getDouble("importe"); //será cero
+                    
+                    jsonAlquiler.put("id",id);
+                    jsonAlquiler.put("matricula",matricula);
+                    jsonAlquiler.put("fecha_inicio",fecha_inicio);
+                    jsonAlquiler.put("fecha_fin",fecha_fin);
+                    jsonAlquiler.put("km_inicio",km_inicio);
+                    jsonAlquiler.put("km_fin",km_fin);
+                    jsonAlquiler.put("importe",importe);
+                    
+                    jsonListaAlquileres.put(jsonAlquiler);
+                           
+            }
+            
+            
+            rs.close();
+            statement.close();
+            
+        }catch(SQLException ex){
+            System.out.println(ex);
+        }
+        return jsonListaAlquileres;
+    
+    }
+
+    
+    
+    
+    
+    //************************************************************************
+
     
     
    

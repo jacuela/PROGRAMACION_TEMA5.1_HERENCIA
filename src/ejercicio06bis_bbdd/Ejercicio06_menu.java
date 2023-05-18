@@ -92,7 +92,9 @@ public class Ejercicio06_menu {
                    break;
               
                case 2:
-                   Empresa.imprimirHistoricoAlquileres();
+                   Empresa.imprimirHistoricoAlquileresJSON();
+                   //Empresa.imprimirHistoricoAlquileres();
+                   
                    break;
                    
                case 3:
@@ -101,7 +103,7 @@ public class Ejercicio06_menu {
                    do {
                         System.out.print("Matricula??: ");
                         matricula=teclado.nextLine();
-                        v=Empresa.obtenerVehiculo(matricula);
+                        v=Empresa.obtenerVehiculo(matricula); 
                         if (v==null) System.out.println("\033[31mERROR: matricula no encontrada\033[30m");
                    }
                    while (v==null);      
@@ -128,7 +130,9 @@ public class Ejercicio06_menu {
                         }
                         fechaCorrecta=true;
                         System.out.println("  >Kilometros actuales: "+v.km);
+                      
                         v.alquilar(fecha_alquilerLD,v.km);
+                        
                         pulseIntroParaContinuar();
                      }
                      catch(Exception e){
@@ -171,11 +175,13 @@ public class Ejercicio06_menu {
                         
                         System.out.print("   >KM actuales del vehiculo: ");
                         km_devolucion=Integer.parseInt(teclado.nextLine());
+                       
                         v.devolver(fecha_devolucionLD,km_devolucion);
+                        
                         pulseIntroParaContinuar();
                      }
                      catch(Exception e){
-                        System.out.println("\033[31mERROR: fecha incorrecta\033[30m"); 
+                        System.out.println(e); 
                      }
                    }while(fechaCorrecta2==false);
                    

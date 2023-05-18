@@ -17,6 +17,7 @@ import java.time.temporal.ChronoUnit;
  * @author juan.antonio
  */
 public class Alquiler {
+    private int id;
     private Vehiculo vehiculo;
     private int km_inicio;
     private int km_fin;
@@ -25,6 +26,7 @@ public class Alquiler {
     private double importe;
     
     public Alquiler(Vehiculo v){
+        this.id = -1;
         this.vehiculo=v;
         this.km_inicio=0;
         this.km_fin=0;
@@ -34,6 +36,40 @@ public class Alquiler {
         
     }
 
+   
+    Alquiler(int id, Vehiculo v, int km_inicio, int km_fin, LocalDate fecha_inicioLD, LocalDate fecha_finLD, double importe) {
+        this.id = id;
+        this.vehiculo=v;
+        this.km_inicio=km_inicio;
+        this.km_fin=km_fin;
+        this.fecha_inicio=fecha_inicioLD;
+        this.fecha_fin=fecha_finLD;
+        this.importe=importe;
+
+    }
+    
+    
+    
+    //------ getter and setter
+    
+    public int getId() {
+        return id;
+    }
+
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public double getImporte() {
+        return importe;
+    }
+
+    public void setImporte(double importe) {
+        this.importe = importe;
+    }
+    
+    
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
