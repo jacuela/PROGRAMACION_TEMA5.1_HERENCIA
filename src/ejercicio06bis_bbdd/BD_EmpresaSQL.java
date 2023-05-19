@@ -293,7 +293,7 @@ public class BD_EmpresaSQL {
             
             int id=-1;
             Statement statement = conexion.createStatement();
-            String sql=String.format("SELECT id FROM alquiler WHERE vehiculo='%s' and fecha_fin is null",
+            String sql=String.format("SELECT id FROM alquiler WHERE matricula='%s' and fecha_fin is null",
                                                     vehiculo.getMatricula());
             //System.out.println("SQL-->"+sql);
             ResultSet rs = statement.executeQuery(sql);
