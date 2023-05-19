@@ -363,7 +363,7 @@ public class BD_EmpresaSQL {
             
             while (rs.next()) {
                     int id = rs.getInt("id");
-                    //String matricula = rs.getString("vehiculo");
+                    //String matricula = rs.getString("matricula");
                     int km_inicio = rs.getInt("km_inicio");
                     int km_fin = rs.getInt("km_fin");
                     String fecha_inicio = rs.getString("fecha_inicio");
@@ -415,7 +415,7 @@ public class BD_EmpresaSQL {
                     JSONObject jsonAlquiler = new JSONObject();
 
                     int id = rs.getInt("id");
-                    String matricula = rs.getString("vehiculo");
+                    String matricula = rs.getString("matricula");
                     int km_inicio = rs.getInt("km_inicio");
                     int km_fin = rs.getInt("km_fin");
                     String fecha_inicio = rs.getString("fecha_inicio");
