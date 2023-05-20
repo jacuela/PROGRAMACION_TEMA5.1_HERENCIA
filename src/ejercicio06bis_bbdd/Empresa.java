@@ -47,41 +47,36 @@ public class Empresa {
     
      public static void finalizarAlquiler(Vehiculo vehiculo, LocalDate fecha_devolucionLD, int km) {
         
-        //Obtengo el ID del alquiler sin terminar. 
+        //Obtengo el ID del alquiler sin terminar. No quiero perder el id correcto
         int id_alquiler=BD_EmpresaSQL.obtenerIDAlquilerSinTerminar(vehiculo);
+        
+        //Por el diseño de mi programa, para calcular el importe, necesito el alquiler        
         Alquiler alquiler;
-        
-        //Vamos a obtener el alquiler para poder calcular el importe
-        //Le paso el vehiculo porque el objeto alquiler lleva como atributo
-        //un vehichulo y a la hora de construir el objeto, lo voy a rellenar
-        //Ademas, lo necesito para hacer el calculo del importe
-        
-        
-        alquiler=BD_EmpresaSQL.obtenerAlquiler(id_alquiler,vehiculo);
+        //alquiler=BD_EmpresaSQL.obtenerAlquiler(id_alquiler,vehiculo);
+        alquiler=BD_EmpresaSQL.obtenerAlquiler(id_alquiler);
+
         alquiler.setFecha_fin(fecha_devolucionLD);
         alquiler.setKm_fin(km);
         alquiler.calcularImporte();
-          
        
         
         //PASAMOS LOS DATOS A LA BBDD
         //1º - Actualizo los datos del alquiler en la bbdd indicando fecha devolucion, km e importe
         BD_EmpresaSQL.finalizarAlquiler(id_alquiler,fecha_devolucionLD,km,alquiler.getImporte());
         
-        
         //2º - Actualizar los datos del vehiculo en la bbdd
         //Poner el vehiculo en la bbdd a NO ALQUILADO
         BD_EmpresaSQL.setCampoAlquilado(vehiculo.getMatricula(), false);
         
-        //Actualizar los km
+        //Actualizar los km del vehiculo
         BD_EmpresaSQL.actualizarKmVehiculo(vehiculo.getMatricula(),km);
         
         
         //Muestro los datos del alquiler. Lo hago ahora que tengo todos los datos correctos
         //Necesito volver a pedir los datos a la bbdd
-        System.out.println("mostrando los datos del alquiler "+id_alquiler);
-        alquiler=BD_EmpresaSQL.obtenerAlquiler(id_alquiler,vehiculo);
-        alquiler.imprimir();
+        Alquiler alquilerCompleto;
+        alquilerCompleto=BD_EmpresaSQL.obtenerAlquiler(id_alquiler);
+        alquilerCompleto.imprimir();
         
     }
     
@@ -93,7 +88,7 @@ public class Empresa {
     public static void listarFlota(){
         
         //====== MOFICACION PARA BBDD ========
-        listaVehiculos = BD_EmpresaSQL.getListaVehiculosSQL();
+        Empresa.listaVehiculos = BD_EmpresaSQL.getListaVehiculosSQL();
         
         
         System.out.println("=========================================");
@@ -158,7 +153,9 @@ public class Empresa {
         JSONObject json;
         System.out.println("");
         System.out.println("");
-        System.out.println("===========  HISTORICO DEL ALQUILERES  ===========");
+        System.out.println("===========  HISTORICO DEL ALQUILERES (JSON)  ===========");
+        System.out.println("Lo hago con JSON");
+        System.out.println("");
         for (int i = 0; i < jsonListaAlquileres.length(); i++) {
                 json = jsonListaAlquileres.getJSONObject(i);
                
@@ -193,10 +190,12 @@ public class Empresa {
         
         //====== MOFICACION PARA BBDD ========
         //aqui pido a la bbdd el listado de alquileres
-        //ArrayList<Alquiler> = BD_EmpresaSQL.obtenerListaAlquileres();
+        Empresa.listaAlquileres = BD_EmpresaSQL.obtenerListaAlquileres();
         
         
-        System.out.println("===========  HISTORICO DEL ALQUILERES  ===========");
+        System.out.println("==============  HISTORICO DEL ALQUILERES  ========");
+        System.out.println("obtengo de la bbdd todo el arraylist de alquieres con sus vehículos");
+        System.out.println("");
         for (Alquiler alquiler : listaAlquileres) {
             System.out.println(alquiler);
         }

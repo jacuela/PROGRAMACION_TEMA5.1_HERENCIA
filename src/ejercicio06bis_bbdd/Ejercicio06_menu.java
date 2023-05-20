@@ -93,7 +93,7 @@ public class Ejercicio06_menu {
               
                case 2:
                    Empresa.imprimirHistoricoAlquileresJSON();
-                   //Empresa.imprimirHistoricoAlquileres();
+                   Empresa.imprimirHistoricoAlquileres();
                    
                    break;
                    

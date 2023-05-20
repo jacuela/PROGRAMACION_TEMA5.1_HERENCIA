@@ -157,7 +157,7 @@ public class BD_EmpresaSQL {
             
         try {
             Statement statement = conexion.createStatement();
-            System.out.println("quiery:"+sql);
+            //System.out.println("quiery:"+sql);
             statement.executeUpdate(sql);
             statement.close();
             
@@ -350,20 +350,27 @@ public class BD_EmpresaSQL {
     
     
     
-    public static Alquiler obtenerAlquiler(int id_, Vehiculo vehiculo) {
+    public static Alquiler obtenerAlquiler(int id_) {
+        
+        Vehiculo vehiculo;
+        Alquiler alquiler=null;
+        
         
         try {
             
-            Alquiler a=null;
+           
             Statement statement = conexion.createStatement();
-            String sql=String.format("SELECT * FROM alquiler WHERE id=%d",id_);
+            String sql=String.format("SELECT id,km_inicio,km_fin,fecha_inicio,fecha_fin,importe,alquiler.matricula,marca_modelo,tipoVehiculo,km,alquilado,precioKilometro,precioDia "
+                    + "FROM alquiler LEFT JOIN vehiculo ON alquiler.matricula = vehiculo.matricula "
+                    + "WHERE id=%d",id_);
+            
             //System.out.println("SQL-->"+sql);
             ResultSet rs = statement.executeQuery(sql);
             
-            
             while (rs.next()) {
+                    
+                    //Datos del alquiler
                     int id = rs.getInt("id");
-                    //String matricula = rs.getString("matricula");
                     int km_inicio = rs.getInt("km_inicio");
                     int km_fin = rs.getInt("km_fin");
                     String fecha_inicio = rs.getString("fecha_inicio");
@@ -380,13 +387,31 @@ public class BD_EmpresaSQL {
                     
                     double importe = rs.getDouble("importe"); //será cero
                     
-                    a=new Alquiler(id,vehiculo,km_inicio,km_fin,fecha_inicioLD,fecha_finLD,importe);
+                    //Datos del vehiculo
+                    String matricula = rs.getString("alquiler.matricula");
+                    String marca_modelo = rs.getString("marca_modelo");
+                    String tipoVehiculo = rs.getString("tipoVehiculo");
+                    int km = rs.getInt("km");
+                    boolean alquilado = rs.getBoolean("alquilado");
+                    Double precioKM = rs.getDouble("precioKilometro");
+                    Double precioDIA = rs.getDouble("precioDia");
+                    
+                    if (tipoVehiculo.equals("turismo")){
+                       vehiculo=new Turismo(matricula,marca_modelo,km,alquilado,precioDIA);
+                    }
+                    else{
+                       vehiculo=new Furgoneta(matricula,marca_modelo,km,alquilado,precioKM);
+
+                    }
+                    
+                    
+                    alquiler=new Alquiler(id,vehiculo,km_inicio,km_fin,fecha_inicioLD,fecha_finLD,importe);
 
             }
            
             rs.close();
             statement.close();
-            return a;
+            return alquiler;
             
         } catch (SQLException ex) {
             System.out.println("ERROR en: obtenerAlquiler()");
@@ -399,7 +424,88 @@ public class BD_EmpresaSQL {
     }
     
     
+    
     //************************************************************************
+    
+    
+    public static ArrayList<Alquiler> obtenerListaAlquileres() {
+        
+        Vehiculo vehiculo;
+        Alquiler alquiler=null;
+        ArrayList<Alquiler> lista=new ArrayList();
+        
+        try {
+            
+           
+            Statement statement = conexion.createStatement();
+            String sql=String.format("SELECT id,km_inicio,km_fin,fecha_inicio,fecha_fin,importe,alquiler.matricula,marca_modelo,tipoVehiculo,km,alquilado,precioKilometro,precioDia "
+                    + "FROM alquiler LEFT JOIN vehiculo ON alquiler.matricula = vehiculo.matricula");
+                    
+            
+            //System.out.println("SQL-->"+sql);
+            ResultSet rs = statement.executeQuery(sql);
+            
+            while (rs.next()) {
+                    
+                    //Datos del alquiler
+                    int id = rs.getInt("id");
+                    int km_inicio = rs.getInt("km_inicio");
+                    int km_fin = rs.getInt("km_fin");
+                    String fecha_inicio = rs.getString("fecha_inicio");
+                    LocalDate fecha_inicioLD = LocalDate.parse(fecha_inicio);
+                    
+                    String fecha_fin = rs.getString("fecha_fin");
+                    LocalDate fecha_finLD;
+                    if (fecha_fin!=null){
+                        fecha_finLD = LocalDate.parse(fecha_fin);
+                    }
+                    else{
+                        fecha_finLD=null;
+                    }
+                    
+                    double importe = rs.getDouble("importe"); //será cero
+                    
+                    //Datos del vehiculo
+                    String matricula = rs.getString("alquiler.matricula");
+                    String marca_modelo = rs.getString("marca_modelo");
+                    String tipoVehiculo = rs.getString("tipoVehiculo");
+                    int km = rs.getInt("km");
+                    boolean alquilado = rs.getBoolean("alquilado");
+                    Double precioKM = rs.getDouble("precioKilometro");
+                    Double precioDIA = rs.getDouble("precioDia");
+                    
+                    if (tipoVehiculo.equals("turismo")){
+                       vehiculo=new Turismo(matricula,marca_modelo,km,alquilado,precioDIA);
+                    }
+                    else{
+                       vehiculo=new Furgoneta(matricula,marca_modelo,km,alquilado,precioKM);
+
+                    }
+                    
+                    
+                    alquiler=new Alquiler(id,vehiculo,km_inicio,km_fin,fecha_inicioLD,fecha_finLD,importe);
+                    lista.add(alquiler);
+
+            }
+           
+            rs.close();
+            statement.close();
+            return lista;
+            
+        } catch (SQLException ex) {
+            System.out.println("ERROR en: obtenerAlquiler()");
+            System.out.println(ex);
+                
+            return null;
+        }  
+        
+    
+    }
+    
+    
+    
+    //************************************************************************
+    
     
     public static JSONArray obtenerListaAlquileresJSON() {
         
@@ -455,8 +561,6 @@ public class BD_EmpresaSQL {
     
     }
 
-    
-    
     
     
     //************************************************************************

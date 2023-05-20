@@ -2,8 +2,6 @@ DROP DATABASE IF EXISTS alquilervehiculos;
 CREATE DATABASE alquilervehiculos CHARACTER SET utf8mb4;
 USE alquilervehiculos;
 
-
-
 CREATE TABLE vehiculo(
     matricula       varchar(50) NOT NULL,
     marca_modelo    varchar(50),
@@ -13,9 +11,7 @@ CREATE TABLE vehiculo(
     precioDia       DECIMAL(10,2),
     tipoVehiculo    varchar(50) NOT NULL,  
     PRIMARY KEY (matricula)
-
 );
-
 
 CREATE TABLE alquiler(
     id 			int UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -27,9 +23,7 @@ CREATE TABLE alquiler(
     importe DECIMAL(10,2),              
     PRIMARY KEY (id),
     CONSTRAINT matricula_vehiculo FOREIGN KEY(matricula) REFERENCES vehiculo(matricula)
-
 );
-
 
 INSERT INTO vehiculo VALUES ('1111TTT','Volvo XC60',100,true,null,30,'turismo');
 INSERT INTO vehiculo VALUES ('2222TTT','Audi A4',0,false,null,30,'turismo');
