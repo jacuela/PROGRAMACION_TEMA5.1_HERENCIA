@@ -12,10 +12,9 @@ package ejercicio01;
 public class Empleado {
     protected String DNI;
     protected String nombre;
-    protected String email;  //no lo utilizo
     protected double salarioBase;
     protected int horasExtra;
-    protected int precioHoraExtra;
+    protected double precioHoraExtra;
     
    
     public Empleado(String DNI, String nombre){
@@ -31,30 +30,39 @@ public class Empleado {
         return salarioBase+(horasExtra*precioHoraExtra);
     }
    
-    
     @Override
     public String toString(){
-        String cadena=null;
-        
-        //Para Empleado
-        if (this instanceof Empleado){
-             cadena=String.format("%s (DNI:%s) [EMPLEADO]",this.nombre,this.DNI);
-        }
-        
-        //Para Contable
-        if (this instanceof Contable){
-             cadena=String.format("%s (DNI:%s) [CONTABLE]",this.nombre,this.DNI);
-        }
-        //Para director     
-        if (this instanceof Director){
-             cadena=String.format("%s (DNI:%s) [DIRECTOR]",this.nombre,this.DNI);
-       
-        }
-        
-        return cadena;
+        //Programa el toString como yo quiera
+        return String.format("%s [DNI:%s]",this.nombre,this.DNI);
     }
     
     
+    
+    
+    
+//    @Override
+//    public String toString(){
+//        String cadena=null;
+//        
+//        //Para Empleado
+//        if (this instanceof Empleado){
+//             cadena=String.format("%s (DNI:%s) [EMPLEADO]",this.nombre,this.DNI);
+//        }
+//        
+//        //Para Contable
+//        if (this instanceof Contable){
+//             cadena=String.format("%s (DNI:%s) [CONTABLE]",this.nombre,this.DNI);
+//        }
+//        //Para director     
+//        if (this instanceof Director){
+//             cadena=String.format("%s (DNI:%s) [DIRECTOR]",this.nombre,this.DNI);
+//       
+//        }
+//        
+//        return cadena;
+//    }
+//    
+//    
     
     //Getter y Seter
 
@@ -74,13 +82,6 @@ public class Empleado {
         this.nombre = nombre;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public int getHorasExtra() {
         return horasExtra;

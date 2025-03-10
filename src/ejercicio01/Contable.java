@@ -21,32 +21,22 @@ public class Contable extends Empleado {
     }
     
     
-    
     @Override
     public double calcularSueldo(){
        
        // Opccion1. Llamara al método del padre 
-       // double sueldoBase=super.calcularSueldo();
-       // return sueldoBase+plusSalario;
-        
-        
+       double sueldoBase=super.calcularSueldo();
+       return sueldoBase+plusSalario;
+                
        //Opcion2. Usar miembros protegidos
-        return salarioBase+(horasExtra*precioHoraExtra)+plusSalario;
+       // return salarioBase+(horasExtra*precioHoraExtra)+plusSalario;
         
     }
-    
     
     public void contabilizar(){
         System.out.println("Estoy contabilizando...");
         
     }
-    
-//    @Override
-//    public String toString(){
-//        String cadena;
-//        cadena=String.format("%s (DNI:%s) [CONTABLE]",this.nombre,this.DNI);
-//        return cadena;
-//    }
     
     
     

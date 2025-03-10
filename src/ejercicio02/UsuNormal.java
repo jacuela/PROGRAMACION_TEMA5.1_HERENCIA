@@ -12,28 +12,45 @@ import java.util.Scanner;
 
 /**
  *
- * @author jacuela
+ * @author juan antonio cuello alarcón
  */
 public class UsuNormal {
   
-    private String nombre;
-    private String password;
-    private String email;
-    //protected TipoUsuario tipo;
+    protected String nombre;
+    protected String password;
+    protected String email;
     
     
     public UsuNormal(String nombre, String password, String email){
         this.nombre=nombre;
         this.password=password;
         this.email=email;
-        //this.tipo=TipoUsuario.NORMAL;
         
     }
     
+    
+    @Override
+    public String toString(){
+        return String.format("%10s %10s %s",this.nombre,this.password,this.email);
+    }
+    
+    
+    public void cambiarPassword(){
+        Scanner teclado = new Scanner(System.in);
+        System.out.println("");
+        System.out.println("Cambiando password de <"+this.nombre+">");
+        System.out.print("Nuevo password:");
+        String nuevopassword=teclado.nextLine();
+        this.password=nuevopassword;
+        System.out.println("El password ha sido cambiado");
+        
+    }
+    
+    
+    
+    
     //getter and setter
     
-    
-
     public String getNombre() {
         return nombre;
     }

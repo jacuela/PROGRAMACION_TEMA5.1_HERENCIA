@@ -24,12 +24,12 @@ public class Director extends Empleado {
     @Override
     public double calcularSueldo(){
        // Opccion1. Llamara al método del padre 
-       // double sueldoBase=super.calcularSueldo();
-       // return sueldoBase+plusSalario;
+       double sueldoBase=super.calcularSueldo();
+       return sueldoBase+plusSalario;
         
         
        //Opcion2. Usar miembros protegidos
-       return salarioBase+(horasExtra*precioHoraExtra)+plusSalario;
+       //return salarioBase+(horasExtra*precioHoraExtra)+plusSalario;
         
         
     }
@@ -39,12 +39,6 @@ public class Director extends Empleado {
         
     }
     
-//    @Override
-//    public String toString(){
-//        String cadena;
-//        cadena=String.format("%s (DNI:%s) [DIRECTOR]",this.nombre,this.DNI);
-//        return cadena;
-//    }
     
     
     

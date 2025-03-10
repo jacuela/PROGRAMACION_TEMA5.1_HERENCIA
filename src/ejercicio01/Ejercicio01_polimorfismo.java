@@ -24,33 +24,59 @@ public class Ejercicio01_polimorfismo {
         //       PUES COMO NO VOY A USARLAS, PUEDO CREAR
         //       LOS OBJETOS DIRECTAMENTE PARA METERLOS AL ARRAYLIST
         //**********************************************
-        //Empleado empleado=new Empleado("1111A","Alicia Camacho");
-        //Contable contable=new Contable("2222A", "Marta Grey");
-        //Director director=new Director("3333A", "Celia Blue",217);
-      
+        
         
         ArrayList<Empleado> listaEmpleados=new ArrayList();
-        listaEmpleados.add(new Empleado("1111A","Alicia Camacho"));
-        listaEmpleados.add(new Contable("2222A", "Marta Grey"));
-        listaEmpleados.add(new Director("3333A", "Celia Blue",217));
         
-        for (int i = 0; i < listaEmpleados.size(); i++) {
-            listaEmpleados.get(i).setHorasExtra(5);
-            System.out.println(listaEmpleados.get(i));
-            System.out.println("Sueldo: "+listaEmpleados.get(i).calcularSueldo());
+        
+        listaEmpleados.add(new Empleado("1111A","Alicia Camacho"));
+        listaEmpleados.add(new Contable("2222A", "J.L.Abalos"));
+        listaEmpleados.add(new Director("3333A", "Ana Botín",204));
+        
+        for (Empleado e : listaEmpleados) {
+            e.setHorasExtra(5); //le doy las horas extra a cada uno
             
-            if (listaEmpleados.get(i) instanceof Contable ){
-                Contable uncontable=(Contable)listaEmpleados.get(i);
-                uncontable.contabilizar();
+            //Imprimo
+            System.out.println(e);
+            System.out.println("SUELDO:"+e.calcularSueldo());
+            
+            
+            if (e instanceof Contable){
+                Contable contable = (Contable)e; //hago casting
+                contable.contabilizar();
+                
+            }else if(e instanceof Director){
+                Director director = (Director)e; //hago casting
+                director.analizarDatos();
             }
-            if (listaEmpleados.get(i) instanceof Director ){
-                Director undirector=(Director)listaEmpleados.get(i);
-                undirector.analizarDatos();
-            }
+            
             
             System.out.println("");
+            
+            
+            
         }
         
+        
+        
+//        
+//        for (int i = 0; i < listaEmpleados.size(); i++) {
+//            listaEmpleados.get(i).setHorasExtra(5);
+//            System.out.println(listaEmpleados.get(i));
+//            System.out.println("Sueldo: "+listaEmpleados.get(i).calcularSueldo());
+//            
+//            if (listaEmpleados.get(i) instanceof Contable ){
+//                Contable uncontable=(Contable)listaEmpleados.get(i);
+//                uncontable.contabilizar();
+//            }
+//            if (listaEmpleados.get(i) instanceof Director ){
+//                Director undirector=(Director)listaEmpleados.get(i);
+//                undirector.analizarDatos();
+//            }
+//            
+//            System.out.println("");
+//        }
+//        
         
         
         

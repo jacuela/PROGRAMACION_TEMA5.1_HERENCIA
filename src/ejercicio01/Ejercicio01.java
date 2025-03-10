@@ -26,34 +26,26 @@ public class Ejercicio01 {
         //que hemos definido el método toString()
         
         Empleado empleado=new Empleado("1111A","Alicia Camacho");
-        Contable contable=new Contable("2222A", "Marta Grey");
-        Director director=new Director("3333A", "Celia Blue",217);
-      
+        Contable contable=new Contable("2222A","J.L.Abalos");
+        Director director=new Director("3333A","Ana Botín",204);
+        
+        //Añadimos horas extra
         empleado.setHorasExtra(5);
         contable.setHorasExtra(5);
         director.setHorasExtra(5);
-       
+        
+        //Imprimo
         System.out.println(empleado);
-        System.out.println("Sueldo: "+empleado.calcularSueldo());
-        
+        System.out.println("SUELDO:"+empleado.calcularSueldo());
         System.out.println("");
-        System.out.println("");
-
         System.out.println(contable);
-        System.out.println("Sueldo: "+contable.calcularSueldo());
+        System.out.println("SUELDO:"+contable.calcularSueldo());
         contable.contabilizar();
-        
         System.out.println("");
-        System.out.println("");
-
         System.out.println(director);
-        System.out.println("Sueldo: "+director.calcularSueldo());
+        System.out.println("SUELDO:"+director.calcularSueldo());
         director.analizarDatos();
         
-
-
-        
-    
     }
     
     
