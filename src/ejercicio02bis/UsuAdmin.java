@@ -23,18 +23,29 @@ public class UsuAdmin extends UsuNormal {
         
     }
     
-    //El método cambiarPassword() lo hereda tal cual
-    
-    //Método para cambiar el password de cualquier usuario
-    public void cambiarPassword(int id){
-        
-        //1º: obtengo el usuario con dicho id
-        //2º: llamo a su método .cambiarPassword()
-        
+    @Override
+    public void listarUsuarios(){
+        BD_Usuarios.listarUsuarios(true);
         
     }
     
     
+    //El método cambiarPassword() lo hereda tal cual
+    
+    //Método para cambiar el password de cualquier usuario
+    public void cambiarPassword(int id){
+        //1º: obtengo el usuario con dicho id
+        UsuNormal usuario = BD_Usuarios.obtenerUsuario(id);
+        
+        if (usuario==null){
+            System.out.println("ERROR: dicho id no existe.");
+        }
+        else{
+            //2º: llamo a su método .cambiarPassword()
+            usuario.cambiarPassword();
+        }
+        
+    }
     
     
 }

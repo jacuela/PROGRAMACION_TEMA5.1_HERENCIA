@@ -41,6 +41,20 @@ public class BD_Usuarios {
         return null;
     }
     
+    
+    public static UsuNormal obtenerUsuario(String nombre){
+        
+        for (UsuNormal usuario : bd) {
+            if (usuario.getNombre().equals(nombre)){
+                //Lo he encontrado
+                return usuario;
+            }
+        }
+        
+        return null;
+    }
+    
+    
     public static boolean verificarLogin(String nombre,
                                          String password){
         

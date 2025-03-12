@@ -49,6 +49,13 @@ public class UsuNormal {
     }
     
     
+    public void listarUsuarios(){
+        BD_Usuarios.listarUsuarios(false);
+        
+    }
+    
+    
+    
     
     
     //getter and setter
