@@ -8,7 +8,6 @@ package ejercicio03;
 
 enum TipoColor{
     NEGRO,ROJO,VERDE,AZUL
-    
 }
 
 /**
@@ -18,10 +17,10 @@ enum TipoColor{
 public abstract class Figura {
     protected String colorRelleno;
     
-    static final String COLOR_NEGRO="\033[30m";
-    static final String COLOR_ROJO="\033[31m";
-    static final String COLOR_VERDE="\033[32m";
-    static final String COLOR_AZUL="\033[34m";
+    private static final String COLOR_NEGRO="\033[30m";
+    private static final String COLOR_ROJO="\033[31m";
+    private static final String COLOR_VERDE="\033[32m";
+    private static final String COLOR_AZUL="\033[34m";
     
     public Figura() {
         this.colorRelleno = COLOR_NEGRO;
@@ -45,8 +44,6 @@ public abstract class Figura {
             colorRelleno = COLOR_NEGRO;
             break;
         }
-        
-        
        
     }
     

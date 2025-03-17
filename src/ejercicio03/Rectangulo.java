@@ -39,7 +39,7 @@ public class Rectangulo extends Figura {
        
         for (int i = 0; i < ladoCorto; i++) {
             for (int j = 0; j < ladoLargo; j++) {
-                System.out.print(colorRelleno+"* ");
+                System.out.print(this.colorRelleno+"* ");
             }
             System.out.println("");
         }
