@@ -15,8 +15,6 @@ public class Turismo extends Vehiculo {
     public Turismo(String matricula, String marca_modelo) {
         super(matricula, marca_modelo);
         
-       
-        
     }
 
     public Turismo(String matricula, String marca_modelo, int km_motor) {
