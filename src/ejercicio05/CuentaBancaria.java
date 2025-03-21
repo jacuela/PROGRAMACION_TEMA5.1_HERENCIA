@@ -52,18 +52,14 @@ public abstract class CuentaBancaria {
         String tipocuenta;
         if (this instanceof CuentaCorriente)
             tipocuenta="C.CORRIENTE";
+        
         else
             tipocuenta="DEPOSITO";
 
-
-        if(saldo>0){
-            return String.format("%12s %5d %7s %10.2f€ %10.2f€\n",tipocuenta,numero,titular.getNombre(),saldo, calcularIntereses());
-        }
-        else{
-            return String.format("%12s %5d %7s %10.2f€ %10.2f€\n",tipocuenta,numero,titular.getNombre(),saldo,  calcularIntereses());
-
-
-        }
+        
+        return String.format("%12s %5d %7s %10.2f€ %10.2f€\n",tipocuenta,numero,titular.getNombre(),saldo, calcularIntereses());
+        
+       
     
     }
     
@@ -74,7 +70,7 @@ public abstract class CuentaBancaria {
         //Se calculan por meses, pero el TAE es anual
         
         long meses=ChronoUnit.MONTHS.between(fechaApertura, LocalDate.now());
-        //System.out.println("Meses de intereses:"+meses);
+        //System.out.println("       ------Meses de intereses:"+meses);
         
         double TAE_mensual = this.TAE / 12;
         
